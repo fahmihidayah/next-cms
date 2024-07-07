@@ -2,16 +2,22 @@ import { HeroForm } from '@/components/form';
 import { Icons } from '@/components/icons';
 import { Button } from '@/components/ui/button';
 import * as m from '@/paraglide/messages';
+import authOptions from './api/auth/[...nextauth]/auth-options';
+import { Session, getServerSession } from 'next-auth';
 
-const Home = () => {
+const Home = async () => {
+  const session: Session | null = await getServerSession(authOptions);
+
+  console.log('fahmi home page session ', session);
   return (
     <section className="container mt-10 flex flex-col items-center gap-3 text-center md:absolute md:left-1/2 md:top-1/2 md:mt-0 md:-translate-x-1/2 md:-translate-y-1/2">
       <h1 className="mb-1 font-mono text-3xl font-extrabold leading-tight tracking-tighter md:text-4xl">
-        {m.nextjs_starter_template_headline()}
+        welcome {session?.user?.email}
       </h1>
       <p className="text-muted-foreground max-w-2xl">
         {m.nextjs_starter_template_description()}
       </p>
+
       <div className="mt-1">
         <HeroForm />
       </div>

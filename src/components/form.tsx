@@ -11,6 +11,8 @@ import { Input } from '@/components/ui/input';
 import { useToast } from '@/components/ui/use-toast';
 import { cn } from '@/lib/utils';
 import * as m from '@/paraglide/messages';
+import { useEffect } from 'react';
+import useClientSession, { ClientSession } from '@/hooks/use-client-session';
 
 const formSchema = z.object({
   name: z.string().min(3),
@@ -19,12 +21,20 @@ const formSchema = z.object({
 type FormSchema = z.infer<typeof formSchema>;
 
 export const HeroForm = () => {
+  const clientSession: ClientSession | null = useClientSession();
+
+  console.log('fahmi home page session ', clientSession?.session);
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: '',
+      name: clientSession?.session?.user?.email ?? '',
     },
   });
+
+  useEffect(() => {
+    form.setValue('name', clientSession?.session?.user?.email ?? '');
+  }, [clientSession?.state]);
+
   const { toast } = useToast();
 
   const onSubmit = async ({ name }: FormSchema) => {
