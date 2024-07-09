@@ -1,8 +1,9 @@
 'use client';
-import authOptions from '@/app/api/auth/[...nextauth]/auth-options';
+import { useEffect, useState } from 'react';
 import { Session } from 'next-auth';
 import { getSession } from 'next-auth/react';
-import { useEffect, useState } from 'react';
+
+import authOptions from '@/app/api/auth/[...nextauth]/auth-options';
 
 export interface ClientSession {
   session: Session | null;

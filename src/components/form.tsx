@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -9,10 +10,9 @@ import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/components/ui/use-toast';
+import useClientSession, { ClientSession } from '@/hooks/use-client-session';
 import { cn } from '@/lib/utils';
 import * as m from '@/paraglide/messages';
-import { useEffect } from 'react';
-import useClientSession, { ClientSession } from '@/hooks/use-client-session';
 
 const formSchema = z.object({
   name: z.string().min(3),
@@ -33,7 +33,7 @@ export const HeroForm = () => {
 
   useEffect(() => {
     form.setValue('name', clientSession?.session?.user?.email ?? '');
-  }, [clientSession?.state]);
+  }, [clientSession, form]);
 
   const { toast } = useToast();
 

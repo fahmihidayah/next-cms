@@ -1,16 +1,14 @@
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
-import type { NextAuthOptions, User } from 'next-auth';
-// import GitHubProvider from 'next-auth/providers/github';
+import bcrypt from 'bcryptjs';
+import { User } from 'next-auth';
+import { NextAuthOptions } from 'next-auth';
+import NextAuth from 'next-auth/next';
+import Credentials from 'next-auth/providers/credentials';
 
+// import GitHubProvider from 'next-auth/providers/github';
 // import { env } from '@/env.mjs';
 import prisma from '@/lib/prisma';
 import { stripeServer } from '@/lib/stripe';
-import Credentials from 'next-auth/providers/credentials';
-
-import bcrypt from 'bcryptjs';
-import NextAuth from 'next-auth/next';
-
-import CredentialsProvider from 'next-auth/providers/credentials';
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),

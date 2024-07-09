@@ -3,6 +3,9 @@ import '@/styles/globals.css';
 import { PropsWithChildren } from 'react';
 import { LanguageProvider } from '@inlang/paraglide-next';
 import type { Metadata } from 'next';
+import { Session } from 'next-auth';
+
+import MainProvider from './provider';
 
 import { Footer } from '@/components/footer';
 import { Navbar } from '@/components/navbar/navbar';
@@ -13,8 +16,6 @@ import { siteConfig } from '@/lib/constant';
 import { fonts } from '@/lib/fonts';
 import { cn } from '@/lib/utils';
 import { languageTag } from '@/paraglide/runtime.js';
-import MainProvider from './provider';
-import { Session } from 'next-auth';
 
 export const generateMetadata = (): Metadata => ({
   metadataBase: new URL(siteConfig.url()),

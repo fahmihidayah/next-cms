@@ -1,8 +1,13 @@
 'use client';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { ErrorMessage } from '@hookform/error-message';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { User } from '@prisma/client';
+import { signIn } from 'next-auth/react';
+import { z } from 'zod';
+
+import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
@@ -10,14 +15,8 @@ import {
   FormItem,
   FormLabel,
 } from '@/components/ui/form';
-import { z } from 'zod';
-
-import { useForm } from 'react-hook-form';
+import { Input } from '@/components/ui/input';
 import { FormActionState } from '@/types/form-state';
-
-import { ErrorMessage } from '@hookform/error-message';
-import { signIn } from 'next-auth/react';
-import { User } from '@prisma/client';
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -80,11 +79,11 @@ export const LoginPage = () => {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center w-full">
+    <div className="flex w-full flex-col items-center justify-center">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className=" flex flex-col gap-5 w-1/2 sm:w-1/4 py-10"
+          className=" flex w-1/2 flex-col gap-5 py-10 sm:w-1/4"
         >
           {formState.state === 'error' && (
             <div className="text-destructive">{formState.message}</div>

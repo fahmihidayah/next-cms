@@ -1,9 +1,11 @@
+import { getServerSession, Session } from 'next-auth';
+
+import authOptions from './api/auth/[...nextauth]/auth-options';
+
 import { HeroForm } from '@/components/form';
 import { Icons } from '@/components/icons';
 import { Button } from '@/components/ui/button';
 import * as m from '@/paraglide/messages';
-import authOptions from './api/auth/[...nextauth]/auth-options';
-import { Session, getServerSession } from 'next-auth';
 
 const Home = async () => {
   const session: Session | null = await getServerSession(authOptions);

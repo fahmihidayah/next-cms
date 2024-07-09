@@ -1,8 +1,9 @@
 'use server';
 
-import { FormActionState } from '@/types/form-state';
 import { User } from '@prisma/client';
 import * as bcrypt from 'bcryptjs';
+
+import { FormActionState } from '@/types/form-state';
 
 export const registerAction = async (form: {
   name: string;

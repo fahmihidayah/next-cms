@@ -1,7 +1,14 @@
 'use client';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { ErrorMessage } from '@hookform/error-message';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { User } from '@prisma/client';
+import { useRouter } from 'next/navigation';
+import { z } from 'zod';
+
+import { registerAction } from '@/actions/auth';
+import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
@@ -9,16 +16,8 @@ import {
   FormItem,
   FormLabel,
 } from '@/components/ui/form';
-import { z } from 'zod';
-
-import { useForm } from 'react-hook-form';
-import { registerAction } from '@/actions/auth';
-import { useRouter } from 'next/navigation';
+import { Input } from '@/components/ui/input';
 import { FormActionState } from '@/types/form-state';
-
-import { ErrorMessage } from '@hookform/error-message';
-import { useState } from 'react';
-import { User } from '@prisma/client';
 
 const formSchema = z.object({
   name: z.string().min(3),
