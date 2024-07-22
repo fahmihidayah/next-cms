@@ -1,14 +1,17 @@
 'use client'
-import { useEffect, useRef } from "react";
+import { ReactNode, useEffect, useRef, useState } from "react";
 import 'medium-editor/dist/css/medium-editor.css';
 import 'medium-editor/dist/css/themes/default.css';
 import MediumEditor from 'medium-editor';
+import { CustomInputProps } from "@premieroctet/next-admin";
 
-export default function EditorForm() {
 
-    const titleRef = useRef(null);
+type Props = CustomInputProps;
+
+const EditorForm = ({ value, name, onChange, disabled, required }: Props) : JSX.Element => {
 
     const editorRef = useRef(null);
+    const [localValue, setLocalValue]  = useState<string | undefined>(value);
 
     useEffect(() => {
         if (!editorRef.current) return;
@@ -43,25 +46,27 @@ export default function EditorForm() {
                     , 'quote', 'pre', 'unorderedlist', 'orderedlist', 'indent', 'outdent', 'justifyLeft', 'justifyCenter', 'justifyRight', 'justifyFull', 'removeFormat']
             }
         });
-
-        if (!titleRef.current) return;
-        const titleEditor = new MediumEditor(titleRef.current,);
-
-        // Clean up
+        // // Clean up
+        editor.subscribe('editableInput', function (event, editable) {
+            setLocalValue(editable.innerHTML);
+        });
+        editor.setContent(localValue ?? "");
+        // `${editable.innerHTML}
         return () => {
-            titleEditor.destroy();
+            
             editor.destroy();
         };
     }, []);
 
     return (
-        <div className="flex flex-col gap-3 py-5 px-5">
-            <div className="text-2xl font-bold px-2 py-2 focus:border-white" ref={titleRef}>
-                
-            </div>
+        <div className="flex flex-col gap-3">
+            
             <div className="h-96 px-2 py-2" ref={editorRef}>
-
+                {value}
             </div>
+            <input type="hidden" name={name} value={localValue} onChange={onChange}/>
         </div>
     );
 }
+
+export default EditorForm;

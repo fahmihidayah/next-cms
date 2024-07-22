@@ -111,10 +111,8 @@ export const authOptions: NextAuthOptions = {
 
       if (!session.user) return session;
 
-      session.user.id = token.id;
       session.user.name = token.name;
       session.user.email = token.email;
-      session.user.image = token.image;
       return session;
     },
   },

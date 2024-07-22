@@ -8,6 +8,8 @@ import { UserDropdown } from '@/components/navbar/user-dropdown';
 import { Link } from '@/lib/i18n';
 import * as m from '@/paraglide/messages';
 
+
+
 export const Navbar = async () => {
   const session = await getServerSession(authOptions);
 

@@ -2,11 +2,13 @@ import type { Config } from 'tailwindcss';
 
 const config = {
   darkMode: ['class'],
+  presets: [require("@premieroctet/next-admin/dist/preset")],
   content: [
     './pages/**/*.{ts,tsx}',
     './components/**/*.{ts,tsx}',
     './app/**/*.{ts,tsx}',
     './src/**/*.{ts,tsx}',
+    "./node_modules/@premieroctet/next-admin/dist/**/*.{js,ts,jsx,tsx}",
   ],
   prefix: '',
   theme: {

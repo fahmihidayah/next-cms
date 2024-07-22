@@ -16,6 +16,7 @@ import { siteConfig } from '@/lib/constant';
 import { fonts } from '@/lib/fonts';
 import { cn } from '@/lib/utils';
 import { languageTag } from '@/paraglide/runtime.js';
+import { Theme } from '@radix-ui/themes';
 
 export const generateMetadata = (): Metadata => ({
   metadataBase: new URL(siteConfig.url()),
@@ -60,13 +61,16 @@ const RootLayout = ({
       <LanguageProvider>
         <html lang={languageTag()} suppressHydrationWarning>
           <body className={cn('min-h-screen font-sans', fonts)}>
-            <ThemeProvider attribute="class">
-              <Navbar />
-              {children}
-              <ThemeSwitcher className="absolute bottom-5 right-5 z-10" />
-              <Footer />
-              <Toaster />
-            </ThemeProvider>
+            <Theme>
+              <ThemeProvider attribute="class">
+
+                {children}
+                <ThemeSwitcher className="absolute bottom-5 right-5 z-10" />
+
+                <Toaster />
+              </ThemeProvider>
+            </Theme>
+
           </body>
         </html>
       </LanguageProvider>

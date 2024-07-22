@@ -1,6 +1,9 @@
 'use client';
 import { Session } from 'next-auth';
 import { SessionProvider } from 'next-auth/react';
+import '@radix-ui/themes/styles.css';
+
+
 
 export default function MainProvider({
   children,
@@ -9,5 +12,7 @@ export default function MainProvider({
   children: React.ReactNode;
   session?: Session | null;
 }) {
-  return <SessionProvider session={session}>{children}</SessionProvider>;
+  return <SessionProvider session={session}>
+    {children}
+  </SessionProvider>;
 }
