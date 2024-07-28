@@ -31,33 +31,38 @@ import Providers from '../../../components/admin-ui/providers';
 import { NavItem } from '../../../components/admin-ui/nav-item';
 import { SearchInput } from '../../../components/admin-ui/search';
 import DashboardRootLayout from '@/components/admin-ui/dashboard-root-layout';
+import { protectPage } from '@/lib/auth-utils';
 
-export default function DashboardLayout({
+
+export default async function DashboardLayout({
   children
 }: {
   children: React.ReactNode;
 }) {
+  
+  await protectPage();
+
   return (
     <DashboardRootLayout 
       menuItems={[
         {
           title: 'Dashboard',
-          link: '/dashboard',
+          link: '/new-admin',
           icon: <Home />
         },
         {
           title: 'Post',
-          link: '/dashboard/posts',
+          link: '/new-admin/posts',
           icon: <StickyNote />
         },
         {
           title: 'Categories',
-          link: '/dashboard/categories',
+          link: '/new-admin/categories',
           icon: <Package />
-        },
+        },  
         {
           title: 'Settings',
-          link: '/dashboard/settings',
+          link: '/new-admin/settings',
           icon: <Settings />
         }
       ]}>

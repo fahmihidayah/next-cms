@@ -1,9 +1,12 @@
+import { PaginateComponent } from "@/components/admin-ui/paginate";
+import { Paginated } from "@/types/query";
 import { Post } from "@prisma/client"
 import { Button, Heading, Table } from "@radix-ui/themes";
 import { LucidePen, LucidePlus, LucideTrash } from "lucide-react";
 import Link from "next/link";
+import { PostRow } from "./row";
 
-export const PostTable = ({ data }: { data: Post[] }) => {
+export const PostTable = ({ paginatedData }: { paginatedData: Paginated<Post> }) => {
     return (
         <>
             <div className="flex flex-row justify-between mb-4 ">
@@ -24,26 +27,12 @@ export const PostTable = ({ data }: { data: Post[] }) => {
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                    {data.map((post) => (
-                        <Table.Row key={post.id}>
-                            <Table.Cell>{post.id}</Table.Cell>
-                            <Table.Cell>{post.title}</Table.Cell>
-                            <Table.Cell>
-                                <div className="flex flex-row gap-3">
-                                    <Button color="blue">
-                                        <LucidePen className="size-3"></LucidePen>
-                                        Edit
-                                    </Button>
-                                    <Button color="red" className="hover:cursor-pointer">
-                                        <LucideTrash className="size-3"></LucideTrash>
-                                        Delete
-                                    </Button>
-                                </div>
-                            </Table.Cell>
-                        </Table.Row>
+                    {paginatedData.data.map((post) => (
+                        <PostRow key={post.id} post={post}></PostRow>
                     ))}
                 </Table.Body>
             </Table.Root>
+            <PaginateComponent total={paginatedData.total} page={paginatedData.page}></PaginateComponent>
 
         </>
     );

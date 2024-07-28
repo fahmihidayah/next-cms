@@ -9,27 +9,27 @@ import { savePost } from "../action";
 import { useState } from "react";
 
 export type UsePostFormProps = {
-    post? : Post;
+    post : Post | null;
 }
 
-export type UseCategoryHook = {
+export type UsePostFormHook = {
     onSubmit: (form: { title : string, 
         content: string, 
-        categories: string[],
      }) => void;
     formActionState: FormActionState<Post | undefined | null>;
     form: UseFormReturn<PostFormSchema>;
 }
 
 
-export const usePostForm = () => {
+export const usePostForm = ({post} : UsePostFormProps) : UsePostFormHook=> {
     const router = useRouter();
     const {toast} = useToast();
 
     const form = useForm<PostFormSchema>({
         defaultValues: {
-            title: '',
-            content: '',
+            id: (post?.id) ?? undefined,
+            title: post?.title ?? '',
+            content: post?.content ?? '',
             categories: [],
         },
     });
@@ -43,14 +43,13 @@ export const usePostForm = () => {
     const onSubmit = async (form: {
         title : string,
         content: string,
-        categories: string[],
     }) => {
         try {
             const post = await savePost(form);
             toast({
                 description: 'Post created successfully',
             });
-            router.push(`/posts/${post.id}`);
+            router.push(`/new-admin/posts`);
         } catch (error) {
             toast({
                 description: `${error}`,
@@ -61,6 +60,8 @@ export const usePostForm = () => {
 
 
     return {
-        
+        form,
+        formActionState,
+        onSubmit,
     }
 }

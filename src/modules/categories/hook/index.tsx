@@ -1,12 +1,14 @@
+'use client'
 import { FormActionState } from "@/types/form-state";
 import { Category } from "@prisma/client";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { useState } from "react";
 import { UseFormReturn, useForm } from "react-hook-form";
 import { CategoryFormSchema, categoryFormSchema } from "../type";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { createCategory } from "../action";
+import { saveCategory } from "../action";
 import { useToast } from "@/components/ui/use-toast";
+import { revalidatePath } from "next/cache";
 
 export type UseCategoryProps = {
     category?: Category;
@@ -34,7 +36,8 @@ export const useCategoryForm = (props : UseCategoryProps) : UseCategoryHook => {
     const form = useForm<CategoryFormSchema>({
         resolver: zodResolver(categoryFormSchema),
         defaultValues: {
-            name: '',
+            id: props.category?.id,
+            name: props.category?.name || '',
         },
     });
 
@@ -47,7 +50,7 @@ export const useCategoryForm = (props : UseCategoryProps) : UseCategoryHook => {
         });
 
         try {
-            const category = await createCategory(form);
+            const category = await saveCategory(form);
             toast.toast({
 
                 description: 'Category created successfully',
@@ -57,6 +60,7 @@ export const useCategoryForm = (props : UseCategoryProps) : UseCategoryHook => {
                 message: 'Category created successfully',
                 state: 'success',
             });
+            
         }
         catch (error) {
             toast.toast({
@@ -68,6 +72,7 @@ export const useCategoryForm = (props : UseCategoryProps) : UseCategoryHook => {
                 state: 'error',
             });
         }
+
     };
     return {
         onSubmit,

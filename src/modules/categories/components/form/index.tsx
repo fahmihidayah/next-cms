@@ -17,7 +17,7 @@ export const CategoryForm = ({ category }: { category?: Category }) => {
         category,
     });
     return (
-        <Card>
+        <>
             <Heading size={"3"} className="content-center">Category</Heading>
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-3">
@@ -27,6 +27,7 @@ export const CategoryForm = ({ category }: { category?: Category }) => {
                     <FormField
                         control={form.control}
                         name="name"
+                        defaultValue={form?.getValues('name')}
                         render={({ field }) => (
                             <FormItem>
                                 <FormControl>
@@ -57,7 +58,6 @@ export const CategoryForm = ({ category }: { category?: Category }) => {
 
             </Form>
 
-
-        </Card>
+        </>
     );
 }

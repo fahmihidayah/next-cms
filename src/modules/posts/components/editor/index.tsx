@@ -1,21 +1,29 @@
 'use client'
-import { ReactNode, useEffect, useRef, useState } from "react";
+import React, { FormEvent, HTMLAttributes, ReactNode, useEffect, useRef, useState } from "react";
 import 'medium-editor/dist/css/medium-editor.css';
 import 'medium-editor/dist/css/themes/default.css';
 import MediumEditor from 'medium-editor';
-import { CustomInputProps } from "@premieroctet/next-admin";
+import { on } from "events";
 
 
-type Props = CustomInputProps;
+type Props = HTMLAttributes<HTMLInputElement> & {
+    value?: string;
+    name: string;
+    onChange: (e: { target: { value: string, name: string } }) => void;
+    disabled?: boolean;
+    required?: boolean;
+};
 
 const EditorForm = ({ value, name, onChange, disabled, required }: Props) : JSX.Element => {
 
     const editorRef = useRef(null);
-    const [localValue, setLocalValue]  = useState<string | undefined>(value);
+
+    const [localValue, setLocalValue] = useState(value);
 
     useEffect(() => {
         if (!editorRef.current) return;
         const editor = new MediumEditor(editorRef.current, {
+
             toolbar: {
                 buttons: ['bold',
                     'italic', 'underline', 'anchor',
@@ -48,10 +56,18 @@ const EditorForm = ({ value, name, onChange, disabled, required }: Props) : JSX.
         });
         // // Clean up
         editor.subscribe('editableInput', function (event, editable) {
-            setLocalValue(editable.innerHTML);
+            onChange(
+                {
+                    target: {
+                        value: `${editable.innerHTML}`,
+                        name: name,
+                    }
+                }
+            );
+            // setLocalValue(editable.innerHTML);
         });
-        editor.setContent(localValue ?? "");
         // `${editable.innerHTML}
+        editor.setContent(localValue ?? "");
         return () => {
             
             editor.destroy();
@@ -61,10 +77,9 @@ const EditorForm = ({ value, name, onChange, disabled, required }: Props) : JSX.
     return (
         <div className="flex flex-col gap-3">
             
-            <div className="h-96 px-2 py-2" ref={editorRef}>
-                {value}
+            <div className="h-screen px-2 py-2" ref={editorRef}>
+               
             </div>
-            <input type="hidden" name={name} value={localValue} onChange={onChange}/>
         </div>
     );
 }

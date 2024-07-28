@@ -29,6 +29,7 @@ import Providers from './providers';
 import { NavItem } from './nav-item';
 import { Navbar } from '../navbar/navbar';
 
+
 export type MenuItem = {
     title: string;
     link: string;
@@ -50,13 +51,12 @@ export default function DashboardRootLayout({
                     <Navbar />
                 </div>
                 <DesktopNav menuItems={menuItems} />
-                <div className="flex flex-col sm:gap-4 sm:pl-14">
+                <div className="flex flex-col sm:gap-4 sm:pl-14 mt-16">
                     <header className="sticky z-30 flex h-14 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
                         <MobileNav menuItems={menuItems} />
-
                     </header>
-                    <main className="grid flex-1 items-start gap-2 p-4 sm:px-6 sm:py-0 md:gap-4 ">
-                        <DashboardBreadcrumb />
+                    <main className="grid flex-1 items-start gap-2 p-4 sm:px-6 sm:py-0 md:gap-4">
+                        {/* <DashboardBreadcrumb /> */}
                         {children}
                     </main>
                 </div>
